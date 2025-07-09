@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinkedIn Profile Analyzer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #0077b5;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #005f91;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e0f7fa;
+      border-left: 4px solid #0077b5;
+      display: none;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🔍 LinkedIn Profile Analyzer (Mock)</h2>
+    <input type="text" id="fullName" placeholder="Full Name" />
+    <input type="text" id="headline" placeholder="Headline (e.g. Web Developer)" />
+    <input type="number" id="experience" placeholder="Years of Experience" />
+    <input type="number" id="skills" placeholder="Number of Skills Listed" />
+    <input type="text" id="education" placeholder="Highest Education" />
+    <button onclick="analyzeProfile()">Analyze Profile</button>
+
+    <div class="result" id="resultBox"></div>
+  </div>
+
+  <script>
+    function analyzeProfile() {
+      const name = document.getElementById("fullName").value.trim();
+      const headline = document.getElementById("headline").value.trim();
+      const experience = parseInt(document.getElementById("experience").value);
+      const skills = parseInt(document.getElementById("skills").value);
+      const education = document.getElementById("education").value.trim();
+
+      const resultBox = document.getElementById("resultBox");
+
+      if (!name || !headline || isNaN(experience) || isNaN(skills) || !education) {
+        resultBox.style.display = "block";
+        resultBox.innerHTML = `<strong>Please fill in all fields correctly.</strong>`;
+        return;
+      }
+
+      let score = 50;
+      if (experience >= 3) score += 15;
+      if (skills >= 5) score += 20;
+      if (education.toLowerCase().includes("bachelor") || education.toLowerCase().includes("master")) {
+        score += 15;
+      }
+
+      resultBox.style.display = "block";
+      resultBox.innerHTML = `
+        <strong>Profile Score: ${score}/100</strong><br>
+        ✅ Name: ${name}<br>
+        💼 Headline: ${headline}<br>
+        📅 Experience: ${experience} year(s)<br>
+        🛠️ Skills: ${skills} listed<br>
+        🎓 Education: ${education}<br><br>
+        ${score >= 80 ? "🌟 Excellent! Your profile looks great!" :
+          score >= 60 ? "👍 Good! Just a few improvements needed." :
+          "📈 Keep working on your skills and experience!"}
+      `;
+    }
+  </script>
+</body>
+</html>
